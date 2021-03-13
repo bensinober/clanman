@@ -26,6 +26,23 @@ OLED Display
     15 -- CS ChipSel   GPIO 8  (24) # CE0
     16 -- RST          GPIO 24 (18)
 
+CONTROLLER
+
+    led := gpioreg.ByName("GPIO23")  // pin 16
+
+BUTTONS
+
+    btnA := gpioreg.ByName("GPIO17") // pin 11
+    btnB := gpioreg.ByName("GPIO18") // pin 12
+    btnC := gpioreg.ByName("GPIO27") // pin 15
+    btnD := gpioreg.ByName("GPIO22") // pin 13
+
+ROTARY
+
+    apin := gpioreg.ByName("GPIO5")  // pin 29
+    bpin := gpioreg.ByName("GPIO6")  // pin 31
+
+
 ## Configuration
 
 * Display

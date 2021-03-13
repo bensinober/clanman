@@ -49,7 +49,7 @@ func NewDisplay(w, h int, port spi.Port, dc, rst gpio.PinIO) *Display {
     log.Fatalf("failed to initialize ssd1306: %v", err)
   }
   //fmt.Printf("%#+v", dev)
-  fmt.Printf("%#+v", dev.Bounds())
+  log.Printf("Display Bounds: %#+v", dev.Bounds())
   img := image1bit.NewVerticalLSB(dev.Bounds())
 
   face := basicfont.Face7x13
@@ -72,7 +72,7 @@ func (d *Display) DrawText(txt string, dot fixed.Point26_6) {
   d.Text.Dot = dot
   d.Text.DrawString(txt)
   if err := d.Dev.Draw(d.Dev.Bounds(), d.Img, image.Point{}); err != nil {
-    fmt.Println(err)
+    log.Println(err)
   }
 }
 
@@ -80,15 +80,22 @@ func (d *Display) DrawImg(img image.Image, dot fixed.Point26_6) {
   //point := fixed.Point26_6{fixed.Int26_6(x * 32), fixed.Int26_6(y * 32)}
   d.Text.Dot = dot
   if err := d.Dev.Draw(d.Dev.Bounds(), img, image.Point{}); err != nil {
-    fmt.Println(err)
+    log.Println(err)
   }
 }
 
 func (d *Display) Clear() {
   c := make([]byte, d.Opts.W*d.Opts.H/8)
   if _, err := d.Dev.Write(c); err != nil {
-    fmt.Println(err)
+    log.Println(err)
   }
+}
+
+func (d *Display) Scroll() {
+  /*  if err := d.Dev.Scroll(ssd1306.Left, ssd1306.FrameRate2, 0, -1); err != nil {
+        log.Println(err)
+      }
+      dev.StopScroll()*/
 }
 
 // http://dot2pic.com/
