@@ -4,6 +4,8 @@ An all-in-one midi device kit powered by Raspberry Pi
 
 Experimental WIP project warning
 
+![WIP](https://github.com/bensinober/clanman/blob/main/docs/20210311_232658.jpg?raw=true "Used an old voice mod board")
+
 Features:
 * Raspberry Pi with PatchboxOS for real-time audio and midi setup
 * Button panel to handle functions, instrument selections, effects, etc.
