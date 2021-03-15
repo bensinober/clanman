@@ -20,8 +20,8 @@ OLED Display
 
     Pin  OLED Function RPi   (pin)
     -------------------
-    1  -- GND          GND     (20)
-    2  -- 3VV          3VV     (17)
+    1  -- GND          GND     (6)
+    2  -- 3VV          3VV     (1)
     4  -- DC DataCmd   GPIO 25 (22)
     7  -- SCLK         GPIO 11 (23) # CLK
     8  -- DIN/DATA     GPIO 10 (19) # MOSI
