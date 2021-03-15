@@ -44,6 +44,46 @@ ROTARY
     apin := gpioreg.ByName("GPIO5")  // pin 29
     bpin := gpioreg.ByName("GPIO6")  // pin 31
 
+## Install
+
+### Raspberry Pi 3+ or newer
+
+Install PatchboxOS on raspberry flash disk
+
+*mindless midi connection service*
+
+    sudo apt install g++ make libasound2-dev
+    git clone https://github.com/mzero/amidiminder.git
+    cd amidiminder
+    make
+    sudo dpkg -i build/amidiminder.deb
+
+*disable vnc*
+
+    systemctl stop vncserver-x11-serviced.service
+    systemctl disable vncserver-x11-serviced.service
+
+*Enable SPI*
+
+    sed -i "_#dtparam=spi=on_dtparam=spi=on_" /boot/config.txt
+    reboot
+
+*midi rules*
+
+    /etc/amidiminder.rules
+    amidiminder -C  # checks the rules and then quits
+    sudo systemctl restart amidiminder
+
+### Cross-compile tools (HOST)
+
+    sudo apt-get install libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev build-essential bison flex libssl-dev bc
+    sudo apt install gcc-arm-linux-gnueabihf
+
+BUILD for pi:
+
+    make
+
+copy binary to raspberry and run
 
 ## Configuration
 
