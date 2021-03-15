@@ -9,6 +9,11 @@ clean:
 	rm -rf ./build/*
 	go vet ./src/...
 
+run: ## Run amd64 version
+	go run src/*.go
+
+test: ## Run amd64 test
+	go run src/*.go --test
 build:  ## Build for linux amd64
 	go build -o ./build/clanman src/*.go
 
