@@ -9,7 +9,7 @@ import (
 )
 
 type Menu struct {
-  Functions       []MenuItem `json:"functions"`
+  Functions       []MenuItem
   mu              sync.Mutex
   currentPosition [3]int // position
 }
@@ -21,10 +21,16 @@ type MenuItem struct {
 
 type Select struct {
   Id       string
-  ToggleC  interface{}
-  ToggleD  interface{}
+  ToggleC  []Action
+  ToggleD  []Action
   RotLeft  interface{}
   RotRight interface{}
+}
+
+type Action struct {
+  Id     string
+  Type   string
+  Action string
 }
 
 func NewMenu() *Menu {
@@ -49,6 +55,16 @@ func (m *Menu) ToggleFunction() {
     m.currentPosition[0] = 0
   } else {
     m.currentPosition[0]++
+  }
+  m.mu.Unlock()
+}
+
+func (m *Menu) ToggleSelect() {
+  m.mu.Lock()
+  if m.currentPosition[1] == len(m.Functions[m.currentPosition[0]].Selects)-1 {
+    m.currentPosition[1] = 0
+  } else {
+    m.currentPosition[1]++
   }
   m.mu.Unlock()
 }

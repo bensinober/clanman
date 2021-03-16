@@ -50,17 +50,18 @@ func NewClanMan(ba, bb, bc, bd *PushButton, led *Led, disp *Display, re *RotaryE
 	}
 }
 
-func (c *ClanMan) DrawMenu(test bool) {
+func (c *ClanMan) UpdateMenu(test bool) {
 	p := c.Menu.currentPosition
 	fun := c.Menu.Functions[p[0]]
 	sel := fun.Selects[p[1]]
-	tog := "TODO" //sel.ToggleC[p[2]]
-	fmt.Printf("LINE1: %s\nLINE2: %s\nLINE3: %s\n", fun.Id, sel.Id, tog)
-	if test {
+	togC := sel.ToggleC[p[2]]
+	fmt.Printf("%#v\n", sel)
+	fmt.Printf("LINE1: %s\nLINE2: %s\nLINE3: %s\n", fun.Id, sel.Id, togC.Id)
+	if !test {
 		c.Display.Clear()
 		c.Display.DrawText(fun.Id, TextTop)
 		c.Display.DrawText(sel.Id, TextMiddle)
-		c.Display.DrawText(tog, TextBottom)
+		c.Display.DrawText(togC.Id, TextBottom)
 	}
 }
 
@@ -70,8 +71,10 @@ func (c *ClanMan) InputHandler(test bool) {
 		switch ev.Origin {
 		case "BtnA":
 			c.Menu.ToggleFunction()
+		case "BtnB":
+			c.Menu.ToggleSelect()
 		}
-		c.DrawMenu(test)
+		c.UpdateMenu(test)
 	}
 }
 
@@ -133,7 +136,7 @@ func main() {
 		clan.Display.PrintLogo()
 		time.Sleep(time.Second * 3)
 		clan.Display.Clear()
-		clan.DrawMenu(*test)
+		clan.UpdateMenu(*test)
 	} else {
 		/*
 			wr := io.WriteCloser(os.Stdout)

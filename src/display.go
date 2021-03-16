@@ -125,9 +125,6 @@ func (d *Display) Clear() {
   if _, err := d.Dev.Write(c); err != nil {
     log.Println(err)
   }
-  if _, err := d.Dev.Write(logo); err != nil {
-    fmt.Println(err)
-  }
 }
 
 func (d *Display) Scroll() {

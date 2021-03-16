@@ -6,9 +6,20 @@
         {
           "id": "bankA",
           "toggleC": [
-            {
-              "id": "instrument"
-            }
+            {"id":"hammond","type":"instrument","action":"Hammond_B3_organ_Fast_Leslie:events-in"},
+            {"id":"m3_organ","type":"instrument","action":"M3R_Organs:events-in"},
+            {"id":"wurly","type":"instrument","action":"wurly:events-in"},
+            {"id":"jrhodes","type":"instrument","action":"jRhodes3a-looped"},
+            {"id":"rhodes","type":"instrument","action":"rhodes:events-in"},
+            {"id":"vintagekeys","type":"instrument","action":"vintagekeys:events-in"},
+            {"id":"ambient_organ","type":"instrument","action":"ambient_organ:events-in"},
+            {"id":"Dance_Organs","type":"instrument","action":"Dance_Organs:events-in"},
+            {"id":"60s_organ","type":"instrument","action":"60s_organ:events-in"},
+            {"id":"TimGM6mb","type":"instrument","action":"TimGM6mb:events-in"},
+            {"id":"Gothorgn","type":"instrument","action":"Gothorgn:events-in"},
+            {"id":"Moog1","type":"instrument","action":"Moog1:events-in"},
+            {"id":"warm_pad","type":"instrument","action":"warm_pad:events-in"},
+            {"id":"piano88","type":"instrument","action":"piano88:events-in"}
           ],
           "toggleD": [],
           "rot": {}
@@ -16,19 +27,20 @@
         {
           "id": "bankB",
           "toggleC": [
-            {
-              "id": "instrument"
-            }
-          ],
-          "toggleD": [],
-          "rot": {}
-        },
-        {
-          "id": "bankB",
-          "toggleC": [
-            {
-              "id": "instrument"
-            }
+            {"id":"hammond","type":"instrument","action":"Hammond_B3_organ_Fast_Leslie:events-in"},
+            {"id":"m3_organ","type":"instrument","action":"M3R_Organs:events-in"},
+            {"id":"wurly","type":"instrument","action":"wurly:events-in"},
+            {"id":"jrhodes","type":"instrument","action":"jRhodes3a-looped"},
+            {"id":"rhodes","type":"instrument","action":"rhodes:events-in"},
+            {"id":"vintagekeys","type":"instrument","action":"vintagekeys:events-in"},
+            {"id":"ambient_organ","type":"instrument","action":"ambient_organ:events-in"},
+            {"id":"Dance_Organs","type":"instrument","action":"Dance_Organs:events-in"},
+            {"id":"60s_organ","type":"instrument","action":"60s_organ:events-in"},
+            {"id":"TimGM6mb","type":"instrument","action":"TimGM6mb:events-in"},
+            {"id":"Gothorgn","type":"instrument","action":"Gothorgn:events-in"},
+            {"id":"Moog1","type":"instrument","action":"Moog1:events-in"},
+            {"id":"warm_pad","type":"instrument","action":"warm_pad:events-in"},
+            {"id":"piano88","type":"instrument","action":"piano88:events-in"}
           ],
           "toggleD": [],
           "rot": {}
@@ -41,12 +53,8 @@
         {
           "id": "volume",
           "toggleC": [
-            {
-              "id": "mute"
-            },
-            {
-              "id": "unmute"
-            }
+            {"id":"mute","type":"mixer"},
+            {"id":"unmute","type":"mixer"}
           ],
           "toggleD": [],
           "rot": []
@@ -54,16 +62,12 @@
         {
           "id": "balance",
           "toggleC": [
-            {
-              "id": "mute"
-            },
-            {
-              "id": "unmute"
-            }
+            {"id":"panleft","type":"mixer"},
+            {"id":"panright","type":"mixer"}
           ],
           "toggleD": [],
-          "rotLeft": "panLeft",
-          "rotRight": "panRight"
+          "rotLeft": "panleft",
+          "rotRight": "panright"
         }
       ]
     },
@@ -71,14 +75,25 @@
       "id": "effects",
       "selects": [
         {
-          "id": "Leslie",
+          "id": "Effect A",
           "toggleC": [
-            {
-              "id": "activateLeslie"
-            },
-            {
-              "id": "deactivateLeslie"
-            }
+            {"id":"Calf Gate","type":"effect","action":"Calf Gate:events-in"},
+            {"id":"Unison","type":"effect","action":"Unison:events-in"},
+            {"id":"Tremelo","type":"effect","action":"Tremelo:events-in"},
+            {"id":"Calf Rotary Speaker","type":"effect","action":"Calf Rotary Speaker:events-in"},
+            {"id":"SI-D2","type":"effect","action":"SI-D2:events-in"}
+          ],
+          "toggleD": [],
+          "rot": []
+        },
+        {
+          "id": "Effect B",
+          "toggleC": [
+            {"id":"Calf Gate","type":"effect","action":"Calf Gate:events-in"},
+            {"id":"Unison","type":"effect","action":"Unison:events-in"},
+            {"id":"Tremelo","type":"effect","action":"Tremelo:events-in"},
+            {"id":"Calf Rotary Speaker","type":"effect","action":"Calf Rotary Speaker:events-in"},
+            {"id":"SI-D2","type":"effect","action":"SI-D2:events-in"}
           ],
           "toggleD": [],
           "rot": []
