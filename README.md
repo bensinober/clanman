@@ -4,6 +4,7 @@ An all-in-one midi device kit powered by Raspberry Pi
 
 Experimental WIP project warning
 
+![WIP](https://github.com/bensinober/clanman/blob/main/docs/clanman.jpg?raw=true "first 3d print")
 ![WIP](https://github.com/bensinober/clanman/blob/main/docs/20210311_232658.jpg?raw=true "Used an old voice mod board")
 
 Features:
