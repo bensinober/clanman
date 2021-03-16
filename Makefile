@@ -7,16 +7,16 @@ all: clean build-pi
 
 clean:
 	rm -rf ./dist/*
-	go vet ./src/...
+	go vet src/clanman.go src/server.go src/controls.go src/menu.go src/display.go
 
 run: ## Run amd64 version
-	go run src/*.go
+	go run src/clanman.go src/server.go src/controls.go src/menu.go src/display.go
 
 test: ## Run amd64 test
-	go run src/*.go --test
+	go run src/clanmock.go src/server.go src/controls.go src/menu.go src/display.go
 
 build: ## Build for linux amd64
-	go build -o ./dist/clanman src/*.go
+	go build -o ./dist/clanman src/clanman.go src/server.go src/controls.go src/menu.go src/display.go
 
 build-pi:  ## build for RaspberryPi
 	GOOS=linux GOARCH=arm GOARM=6 go build -o ./dist/clanman src/*.go
