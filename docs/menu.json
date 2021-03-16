@@ -1,0 +1,89 @@
+{
+  "functions": [
+    {
+      "id": "banks",
+      "selects": [
+        {
+          "id": "bankA",
+          "toggleC": [
+            {
+              "id": "instrument"
+            }
+          ],
+          "toggleD": [],
+          "rot": {}
+        },
+        {
+          "id": "bankB",
+          "toggleC": [
+            {
+              "id": "instrument"
+            }
+          ],
+          "toggleD": [],
+          "rot": {}
+        },
+        {
+          "id": "bankB",
+          "toggleC": [
+            {
+              "id": "instrument"
+            }
+          ],
+          "toggleD": [],
+          "rot": {}
+        }
+      ]
+    },
+    {
+      "id": "mixer",
+      "selects": [
+        {
+          "id": "volume",
+          "toggleC": [
+            {
+              "id": "mute"
+            },
+            {
+              "id": "unmute"
+            }
+          ],
+          "toggleD": [],
+          "rot": []
+        },
+        {
+          "id": "balance",
+          "toggleC": [
+            {
+              "id": "mute"
+            },
+            {
+              "id": "unmute"
+            }
+          ],
+          "toggleD": [],
+          "rotLeft": "panLeft",
+          "rotRight": "panRight"
+        }
+      ]
+    },
+    {
+      "id": "effects",
+      "selects": [
+        {
+          "id": "Leslie",
+          "toggleC": [
+            {
+              "id": "activateLeslie"
+            },
+            {
+              "id": "deactivateLeslie"
+            }
+          ],
+          "toggleD": [],
+          "rot": []
+        }
+      ]
+    }
+  ]
+}
