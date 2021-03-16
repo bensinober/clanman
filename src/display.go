@@ -53,7 +53,7 @@ type Display struct {
   Opts *ssd1306.Opts
   Dev  *ssd1306.Dev
   Img  *image1bit.VerticalLSB
-  Text *font.Drawer
+  Text font.Drawer
 }
 
 type TextPlacement *fixed.Point26_6
@@ -98,7 +98,7 @@ func NewDisplay(w, h int, port spi.Port, dc, rst gpio.PinIO) *Display {
     Opts: &opts,
     Dev:  dev,
     Img:  img,
-    Text: &text,
+    Text: text,
   }
 }
 
@@ -121,6 +121,15 @@ func (d *Display) DrawImg(img image.Image, dot fixed.Point26_6) {
 
 func (d *Display) Clear() {
   fmt.Println("CLEAR")
+  img := image1bit.NewVerticalLSB(d.Dev.Bounds())
+  text := font.Drawer{
+    Dst:  img,
+    Src:  &image.Uniform{image1bit.On},
+    Face: basicfont.Face7x13,
+    Dot:  fixed.P(0, 32), // start bottom left
+  }
+  d.Text = text
+  d.Img = img
   c := make([]byte, d.Opts.W*d.Opts.H/8)
   if _, err := d.Dev.Write(c); err != nil {
     log.Println(err)

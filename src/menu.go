@@ -21,7 +21,7 @@ type MenuItem struct {
 
 type Select struct {
   Id       string
-  ToggleC  []Action
+  Actions  []Action
   ToggleD  []Action
   RotLeft  interface{}
   RotRight interface{}
@@ -56,6 +56,7 @@ func (m *Menu) ToggleFunction() {
   } else {
     m.currentPosition[0]++
   }
+  m.currentPosition[1], m.currentPosition[2] = 0, 0 // reset submenus
   m.mu.Unlock()
 }
 
@@ -69,36 +70,12 @@ func (m *Menu) ToggleSelect() {
   m.mu.Unlock()
 }
 
-/*
-const (
-  Hammond Instrument = iota
-  Rhodes
-  Organ
-  Wurlitzer
-  Moog
-  Piano
-)
-
-func (i Instrument) String() string {
-  return [...]string{"Hammond", "Rhodes", "Organ", "Wurlitzer", "Moog", "Piano"}[i]
+func (m *Menu) ToggleAction() {
+  m.mu.Lock()
+  if m.currentPosition[2] == len(m.Functions[m.currentPosition[0]].Selects[m.currentPosition[1]].Actions)-1 {
+    m.currentPosition[2] = 0
+  } else {
+    m.currentPosition[2]++
+  }
+  m.mu.Unlock()
 }
-
-const (
-  Effect1 Effect = iota
-  Effect2
-  Effect3
-)
-
-func (e Effect) String() string {
-  return [...]string{"Effect1", "Effect2", "Effect3"}[e]
-}
-
-const (
-  Volume Mixer = iota
-  Balance
-)
-
-func (m Mixer) String() string {
-  return [...]string{"Volume", "Balance"}[m]
-}
-*/

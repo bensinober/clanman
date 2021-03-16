@@ -5,7 +5,7 @@
       "selects": [
         {
           "id": "bankA",
-          "toggleC": [
+          "actions": [
             {"id":"hammond","type":"instrument","action":"Hammond_B3_organ_Fast_Leslie:events-in"},
             {"id":"m3_organ","type":"instrument","action":"M3R_Organs:events-in"},
             {"id":"wurly","type":"instrument","action":"wurly:events-in"},
@@ -26,7 +26,8 @@
         },
         {
           "id": "bankB",
-          "toggleC": [
+          "actions": [
+            {"id":"none","type":"instrument","action":""},
             {"id":"hammond","type":"instrument","action":"Hammond_B3_organ_Fast_Leslie:events-in"},
             {"id":"m3_organ","type":"instrument","action":"M3R_Organs:events-in"},
             {"id":"wurly","type":"instrument","action":"wurly:events-in"},
@@ -52,7 +53,7 @@
       "selects": [
         {
           "id": "volume",
-          "toggleC": [
+          "actions": [
             {"id":"mute","type":"mixer"},
             {"id":"unmute","type":"mixer"}
           ],
@@ -61,7 +62,7 @@
         },
         {
           "id": "balance",
-          "toggleC": [
+          "actions": [
             {"id":"panleft","type":"mixer"},
             {"id":"panright","type":"mixer"}
           ],
@@ -76,7 +77,8 @@
       "selects": [
         {
           "id": "Effect A",
-          "toggleC": [
+          "actions": [
+            {"id":"none","type":"effect","action":""},
             {"id":"Calf Gate","type":"effect","action":"Calf Gate:events-in"},
             {"id":"Unison","type":"effect","action":"Unison:events-in"},
             {"id":"Tremelo","type":"effect","action":"Tremelo:events-in"},
@@ -88,7 +90,8 @@
         },
         {
           "id": "Effect B",
-          "toggleC": [
+          "actions": [
+            {"id":"none","type":"effect","action":""},
             {"id":"Calf Gate","type":"effect","action":"Calf Gate:events-in"},
             {"id":"Unison","type":"effect","action":"Unison:events-in"},
             {"id":"Tremelo","type":"effect","action":"Tremelo:events-in"},

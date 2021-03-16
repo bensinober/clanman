@@ -54,14 +54,15 @@ func (c *ClanMan) UpdateMenu(test bool) {
 	p := c.Menu.currentPosition
 	fun := c.Menu.Functions[p[0]]
 	sel := fun.Selects[p[1]]
-	togC := sel.ToggleC[p[2]]
-	fmt.Printf("%#v\n", sel)
-	fmt.Printf("LINE1: %s\nLINE2: %s\nLINE3: %s\n", fun.Id, sel.Id, togC.Id)
+	// TODO: error checking here if json is not complete
+	act := sel.Actions[p[2]]
+	//fmt.Printf("%#v\n", sel)
+	fmt.Printf("LINE1: %s\nLINE2: %s\nLINE3: %s\n", fun.Id, sel.Id, act.Id)
 	if !test {
 		c.Display.Clear()
 		c.Display.DrawText(fun.Id, TextTop)
 		c.Display.DrawText(sel.Id, TextMiddle)
-		c.Display.DrawText(togC.Id, TextBottom)
+		c.Display.DrawText(act.Id, TextBottom)
 	}
 }
 
@@ -73,6 +74,8 @@ func (c *ClanMan) InputHandler(test bool) {
 			c.Menu.ToggleFunction()
 		case "BtnB":
 			c.Menu.ToggleSelect()
+		case "BtnC":
+			c.Menu.ToggleAction()
 		}
 		c.UpdateMenu(test)
 	}
