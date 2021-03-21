@@ -1,0 +1,13 @@
+[Unit]
+Description=Clanman service
+After=fluidsynth.service
+
+[Service]
+User=patch
+Group=patch
+WorkingDirectory=/home/patch/clanman
+ExecStart=/home/patch/clanman/clanman
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
