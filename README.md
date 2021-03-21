@@ -75,6 +75,20 @@ Install PatchboxOS on raspberry flash disk
     amidiminder -C  # checks the rules and then quits
     sudo systemctl restart amidiminder
 
+### Setup
+
+Copy all script files into ./clanman/scripts folder, and the clanman binary to ./clanman
+
+ln -s /home/patch/clanman/scripts/jack-start.service /etc/systemd/system/jack-start.service
+ln -s /home/patch/clanman/scripts/jack-a2j.service /etc/systemd/system/jack-a2j.service
+ln -s /home/patch/clanman/scripts/clanman.service /etc/systemd/system/clanman.service
+
+systemctl disable pisound-ctl.service
+systemctl enable jack-start.service
+systemctl enable jack-a2j.service
+systemctl enable clanman.service
+
+
 ### Cross-compile tools (HOST)
 
     sudo apt-get install libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev build-essential bison flex libssl-dev bc

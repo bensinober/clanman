@@ -35,7 +35,7 @@ type Action struct {
 
 func NewMenu() *Menu {
   var m Menu
-  f, err := os.Open("./docs/menu.json")
+  f, err := os.Open("menu.json")
   if err != nil {
     log.Fatal("Failed opening menu file")
   }

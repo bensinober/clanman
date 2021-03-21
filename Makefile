@@ -17,6 +17,8 @@ test: ## Run amd64 test
 
 build: ## Build for linux amd64
 	go build -o ./dist/clanman src/clanman.go src/server.go src/controls.go src/menu.go src/display.go
+	cp src/menu.json dist/
 
 build-pi:  ## build for RaspberryPi
 	GOOS=linux GOARCH=arm GOARM=6 go build -o ./dist/clanman src/*.go
+	cp src/menu.json dist/
