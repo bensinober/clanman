@@ -6,14 +6,16 @@ import (
 )
 
 type Server struct {
-  addr string
-  clan *ClanMan
+  addr  string
+  clan  *ClanMan
+  fluid *FluidSynth
 }
 
-func NewServer(a string, c *ClanMan) *Server {
+func NewServer(a string, c *ClanMan, f *FluidSynth) *Server {
   return &Server{
-    addr: a,
-    clan: c,
+    addr:  a,
+    clan:  c,
+    fluid: f,
   }
 }
 

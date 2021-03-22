@@ -157,6 +157,8 @@ func main() {
 	}
 
 	go clan.InputHandler(*test)
-	s := NewServer(*port, clan)
+	f := NewFluidSynth("patchbox:9800")
+	s := NewServer(*port, clan, f)
+	s.fluid.LoadFonts(clan.Menu.Soundfonts)
 	s.Run()
 }

@@ -4,9 +4,10 @@ Description=Start fluidsynth server
 [Service]
 LimitRTPRIO=infinity
 LimitMEMLOCK=infinity
+WorkingDirectory=/home/patch/SF2
 User=patch
 Group=patch
-ExecStart=/usr/bin/fluidsynth --server --no-shell --disable-lash --midi-driver alsa_seq --audio-driver /home/patch/SF2/*
+ExecStart=/usr/bin/fluidsynth --server --no-shell --disable-lash --midi-driver alsa_seq --audio-driver alsa
 #Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket
 
 [Install]

@@ -7,16 +7,16 @@ all: clean build-pi
 
 clean:
 	rm -rf ./dist/*
-	go vet src/clanman.go src/server.go src/controls.go src/menu.go src/display.go
+	go vet src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go
 
 run: ## Run amd64 version
-	go run src/clanman.go src/server.go src/controls.go src/menu.go src/display.go
+	go run src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go
 
 test: ## Run amd64 test
-	go run src/clanman.go src/server.go src/controls.go src/menu.go src/display.go --test
+	go run src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go --test
 
 build: ## Build for linux amd64
-	go build -o ./dist/clanman src/clanman.go src/server.go src/controls.go src/menu.go src/display.go
+	go build -o ./dist/clanman src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go
 	cp src/menu.json dist/
 
 build-pi:  ## build for RaspberryPi

@@ -9,6 +9,7 @@ import (
 )
 
 type Menu struct {
+  Soundfonts      []string
   Functions       []MenuItem
   mu              sync.Mutex
   currentPosition [3]int // position
