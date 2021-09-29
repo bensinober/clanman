@@ -75,7 +75,8 @@ func (c *ClanMan) InputHandler(test bool) {
 		case "BtnB":
 			c.Menu.ToggleSelect()
 		case "BtnC":
-			c.Menu.ToggleAction()
+			p := c.Menu.ToggleAction()
+			c.Fluid.PutFontInFront(c.Menu.currentPosition[2]) // change chan 0 to new font
 		}
 		c.UpdateMenu(test)
 	}

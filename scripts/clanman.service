@@ -5,6 +5,7 @@ After=fluidsynth.service
 [Service]
 User=patch
 Group=patch
+Restart=always
 WorkingDirectory=/home/patch/clanman
 ExecStart=/home/patch/clanman/clanman
 Type=simple
