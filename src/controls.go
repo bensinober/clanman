@@ -79,28 +79,6 @@ func (re *RotaryEncoder) Read() int {
 	return c
 }
 
-/*
-func (re *RotaryEncoder) Read() int {
-	// discharge first for 5ms
-	(*re.PinA).In(gpio.PullNoChange, gpio.NoEdge)
-	(*re.PinB).Out(gpio.Low)
-
-	//    GPIO.output(b_pin, False)
-	time.Sleep(time.Millisecond * 5)
-	// then measure time
-	c := 0
-	(*re.PinB).In(gpio.PullNoChange, gpio.NoEdge)
-	(*re.PinA).Out(gpio.High)
-	for {
-		if (*re.PinB).Read() == gpio.Low {
-			c++
-			continue
-		}
-		break
-	}
-	return c
-}
-*/
 func (re *RotaryEncoder) Listen() {
 	for {
 		r := re.Read()

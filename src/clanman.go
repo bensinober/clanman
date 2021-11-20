@@ -26,6 +26,7 @@ type ClanMan struct {
 	Display     *Display
 	Menu        *Menu
 	InputEvents chan InputEvent
+	Fluid       *FluidSynth
 }
 
 type InputEvent struct {
@@ -37,7 +38,7 @@ type Led struct {
 	Pin gpio.PinIO
 }
 
-func NewClanMan(ba, bb, bc, bd *PushButton, led *Led, disp *Display, re *RotaryEncoder, m *Menu, ev chan InputEvent) *ClanMan {
+func NewClanMan(ba, bb, bc, bd *PushButton, led *Led, disp *Display, re *RotaryEncoder, m *Menu, ev chan InputEvent, f *FluidSynth) *ClanMan {
 	return &ClanMan{
 		BtnA:        ba,
 		BtnB:        bb,
@@ -47,36 +48,72 @@ func NewClanMan(ba, bb, bc, bd *PushButton, led *Led, disp *Display, re *RotaryE
 		Display:     disp,
 		Menu:        m,
 		InputEvents: ev,
+		Fluid:       f,
 	}
 }
 
+/* update menu with positional state
+   Line 1 - Function
+   Line 2 - Select
+*/
 func (c *ClanMan) UpdateMenu(test bool) {
-	p := c.Menu.currentPosition
-	fun := c.Menu.Functions[p[0]]
+	fun := c.Menu.GetActiveFunction()
+	p := c.Menu.GetcurrentPosition()
 	sel := fun.Selects[p[1]]
-	// TODO: error checking here if json is not complete
-	act := sel.Actions[p[2]]
+	var funct, act, tog string
+	switch fun.Type {
+	case "instrumentSelector":
+		if len(c.Fluid.Fonts) > 0 {
+			fnt := c.Fluid.Fonts[p[2]] // menu pos 2 = font
+			prg := fnt.Banks[0][p[3]]  // menu pos 3 = prg
+			funct = fmt.Sprintf("%s %s", fun.Id, sel.Id)
+			act = fmt.Sprintf("%d %s", p[2], fnt.Name)
+			tog = fmt.Sprintf("%d %s", p[3], prg.Name)
+		}
+	default:
+		if len(sel.Actions) > p[2] {
+			act = sel.Actions[p[2]].Id
+			if len(sel.Toggles) > p[3] {
+				tog = sel.Toggles[p[3]].Id
+			}
+		}
+	}
+	fmt.Printf("FUNCT: %s\nSEL: %s\nACT: %s\nTOGG: %s\n", fun.Id, sel.Id, act, tog)
 	//fmt.Printf("%#v\n", sel)
-	fmt.Printf("LINE1: %s\nLINE2: %s\nLINE3: %s\n", fun.Id, sel.Id, act.Id)
 	if !test {
 		c.Display.Clear()
-		c.Display.DrawText(fun.Id, TextTop)
-		c.Display.DrawText(sel.Id, TextMiddle)
-		c.Display.DrawText(act.Id, TextBottom)
+		c.Display.DrawText(funct, TextTop)
+		c.Display.DrawText(act, TextMiddle)
+		c.Display.DrawText(tog, TextBottom)
 	}
 }
 
 func (c *ClanMan) InputHandler(test bool) {
 	for ev := range c.InputEvents {
 		fmt.Printf("GOT EVENT: %s, BY %s\n", ev.Name, ev.Origin)
+		fun := c.Menu.GetActiveFunction()
 		switch ev.Origin {
 		case "BtnA":
-			c.Menu.ToggleFunction()
+			c.Menu.NextFunction()
 		case "BtnB":
-			c.Menu.ToggleSelect()
+			c.Menu.NextSelect()
 		case "BtnC":
-			p := c.Menu.ToggleAction()
-			c.Fluid.PutFontInFront(c.Menu.currentPosition[2]) // change chan 0 to new font
+			if fun.Type == "instrumentSelector" {
+				log.Println("Button C fontSelector")
+				fontId, progId := c.Fluid.NextFont(c.Menu) // change chan 0 to new font
+				c.Menu.SelectFontId(fontId)
+				c.Menu.SelectProgId(progId)
+			} else {
+				c.Menu.NextAction()
+			}
+		case "BtnD":
+			if fun.Type == "instrumentSelector" {
+				log.Println("Button D progSelector")
+				fontId := c.Fluid.NextInstrumentProg(c.Menu) // change chan 0 to new prog
+				c.Menu.SelectProgId(fontId)
+			} else {
+				c.Menu.NextToggle()
+			}
 		}
 		c.UpdateMenu(test)
 	}
@@ -133,14 +170,14 @@ func main() {
 		/* initialize */
 		disp := NewDisplay(128, 32, spiPort, dc, rst)
 		re := NewRotaryEncoder(apin, bpin)
-		clan = NewClanMan(ba, bb, bc, bd, led, disp, re, m, ev)
+		f := NewFluidSynth("patchbox:9800")
+		clan = NewClanMan(ba, bb, bc, bd, led, disp, re, m, ev, f)
 		time.Sleep(time.Second * 3)
 		clan.Display.Clear()
 		time.Sleep(time.Second * 3)
 		clan.Display.PrintLogo()
 		time.Sleep(time.Second * 3)
 		clan.Display.Clear()
-		clan.UpdateMenu(*test)
 	} else {
 		/*
 			wr := io.WriteCloser(os.Stdout)
@@ -154,12 +191,17 @@ func main() {
 		lPin := &gpiotest.Pin{N: "GPIO23", EdgesChan: edgesFake}
 		led := &Led{Pin: lPin}
 		ev := make(chan InputEvent)
-		clan = NewClanMan(nil, nil, nil, nil, led, nil, nil, m, ev)
+		clan = NewClanMan(nil, nil, nil, nil, led, nil, nil, m, ev, nil)
 	}
 
 	go clan.InputHandler(*test)
-	f := NewFluidSynth("patchbox:9800")
-	s := NewServer(*port, clan, f)
-	s.fluid.LoadFonts(clan.Menu.Soundfonts)
+
+	s := NewServer(*port, clan)
+	if !*test {
+		/* Load soundfonts from file and update menu */
+		clan.Fluid.LoadFonts(clan.Display)
+		clan.Fluid.ResetToInitialFont()
+		clan.UpdateMenu(*test)
+	}
 	s.Run()
 }

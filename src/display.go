@@ -60,8 +60,8 @@ type TextPlacement *fixed.Point26_6
 
 var (
   TextTop    fixed.Point26_6 = fixed.P(4, 12)
-  TextMiddle fixed.Point26_6 = fixed.P(12, 22)
-  TextBottom fixed.Point26_6 = fixed.P(12, 32)
+  TextMiddle fixed.Point26_6 = fixed.P(4, 22)
+  TextBottom fixed.Point26_6 = fixed.P(4, 32)
 )
 
 /* Add display with basic font and monochrome image support */

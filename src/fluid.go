@@ -1,10 +1,16 @@
 package main
 
 import (
+  "bufio"
+  "encoding/json"
   "fmt"
+  "io/ioutil"
   "log"
   "net"
+  "os"
   "strconv"
+  "strings"
+  "time"
 )
 
 /*
@@ -65,9 +71,24 @@ fluidsynth API
 
 
 */
+const soundFontResultString = "loaded SoundFont has ID "
+
 type FluidSynth struct {
-  conn net.Conn
-  host string
+  conn  net.Conn
+  host  string
+  Fonts []Font
+}
+
+type Font struct {
+  Id    int
+  Name  string
+  File  string
+  Banks map[int][]Prog
+}
+
+type Prog struct {
+  Id   int
+  Name string
 }
 
 func NewFluidSynth(host string) *FluidSynth {
@@ -81,32 +102,171 @@ func NewFluidSynth(host string) *FluidSynth {
   }
 }
 
-func (f FluidSynth) LoadFonts(ss []string) {
-  for _, s := range ss {
-    l := fmt.Sprintf("load /home/patch/SF2/%s", s)
-    f.Send(l)
+func (f *FluidSynth) LoadFonts(d *Display) {
+  fonts := make([]Font, 0)
+  file, err := os.Open("fonts.json")
+  if err != nil {
+    log.Fatal("Failed opening fonts file")
   }
+  defer file.Close()
+  bs, _ := ioutil.ReadAll(file)
+  fs := []struct{ Name, File string }{} // intermediate struct for json font input file
+  if err := json.Unmarshal(bs, &fs); err != nil {
+    log.Fatalf("Failed parsing fonts: %s", err)
+  }
+
+  for _, font := range fs {
+    d.Clear()
+    d.DrawText("Loading font...", TextTop)
+    d.DrawText(font.Name, TextMiddle)
+    l := fmt.Sprintf("load /home/patch/SF2/%s", font.File)
+    f.Send(l)
+    time.Sleep(time.Millisecond * 3000)
+    // Need to sleep
+    res, err := f.ReceiveLines()
+    if err != nil {
+      log.Printf("Failed loading font: %s", err)
+      return
+    }
+    if strings.HasPrefix(res, soundFontResultString) {
+      idStr := strings.TrimSpace(strings.Replace(res, soundFontResultString, "", -1))
+      log.Printf("loaded font got id: %s", idStr)
+      id, err := strconv.Atoi(idStr)
+      if err != nil {
+        log.Println(err)
+        continue
+      }
+      bnks := f.ParseFontBanks(id)
+      fonts = append(fonts, Font{
+        Id:    id,
+        Name:  font.Name,
+        File:  font.File, // dont need this?
+        Banks: bnks,
+      })
+    } else {
+      log.Printf("failed getting font id from res: %s", res)
+    }
+  }
+  f.Fonts = fonts
+  d.Clear()
+  d.DrawText("Done loading...", TextMiddle)
+  time.Sleep(time.Second * 1)
+
 }
 
-func (f FluidSynth) Send(msg string) {
+/* parse instruments from font
+   eg 000-012 rock organ
+   disabled as loading is async in fluidsynth and we have no callback to ensure order
+*/
+func (f FluidSynth) ParseFontBanks(id int) map[int][]Prog {
+  msg := fmt.Sprintf("inst %d", id)
+  banks := make(map[int][]Prog, 0) // intermediary map of bank ids
+  f.Send(msg)
+  res, err := f.ReceiveLines()
+  if err != nil {
+    log.Printf("Error: %s", err)
+    return banks
+  }
+  log.Println(res)
+
+  /* scanner splits by newlines */
+  scanner := bufio.NewScanner(strings.NewReader(res))
+  for scanner.Scan() {
+    ln := scanner.Text()
+    bnk, _ := strconv.Atoi(ln[0:3])
+    prg, _ := strconv.Atoi(ln[4:7])
+    nam := ln[8:len(ln)]
+    banks[bnk] = append(banks[bnk], Prog{prg, nam})
+  }
+  return banks
+}
+
+func (f *FluidSynth) Send(msg string) {
+  log.Printf("<< %s", msg)
+  //fmt.Fprintf(f.conn, msg+"\n")
   f.conn.Write([]byte(msg))
   f.conn.Write([]byte("\n"))
-  log.Printf("Send: %s", msg)
-
-  buff := make([]byte, 1024)
-  n, _ := f.conn.Read(buff)
-  log.Printf("Receive: %s", buff[:n])
 }
 
-func (f FluidSynth) SetSampleRate(rate int) {
-  msg := fmt.Sprintf("set synth.sample-rate %s", rate)
+/* read one line until newline */
+func (f *FluidSynth) ReceiveLine() (string, error) {
+  msg, err := bufio.NewReader(f.conn).ReadString('\n')
+  if err != nil {
+    return "", err
+  }
+  log.Printf(">> %s", msg)
+  return msg, nil
+}
+
+/* read one or more lines until no more is received */
+func (f *FluidSynth) ReceiveLines() (string, error) {
+  scanner := bufio.NewScanner(f.conn)
+  var out string
+  for {
+    f.conn.SetReadDeadline(time.Now().Add(time.Second * 1))
+    if ok := scanner.Scan(); !ok {
+      break
+    }
+    res := scanner.Text()
+    log.Printf(">> %s", res)
+    out += res + "\n"
+  }
+  /*buf := make([]byte, 1024)
+    n, err := f.conn.Read(buf)
+    if err != nil {
+      return "", err
+    }
+    res := string(buf[:n])
+    log.Printf(">> %s", res)
+  */
+  return out, nil
+}
+
+func (f *FluidSynth) SetSampleRate(rate int) {
+  msg := fmt.Sprintf("set synth.sample-rate %d", rate)
   f.Send(msg)
 }
 
-func (f FluidSynth) PutFontInFront(font int) {
-  r := strconv.Itoa(rate)
-  // select chan sfont bank prog
-  // Just put the first prog of the first bank on channel 0
-  msg := fmt.Sprintf("select 0 %s 0 0", font)
+func (f *FluidSynth) ResetToInitialFont() {
+  font := f.Fonts[0]
+  prog := font.Banks[0][0]
+  log.Printf("Starting initial font %d: %s : %d %s\n", font.Id, font.Name, prog.Id, prog.Name)
+  msg := fmt.Sprintf("select 0 %d 0 %d", font.Id, prog.Id)
   f.Send(msg)
+}
+
+// font ids are integers returned from fluidsynth, not guaranteed in sequence
+func (f *FluidSynth) NextFont(m *Menu) (int, int) {
+  chanId := m.currentPosition[1]
+  fontId := m.currentPosition[2]
+  if fontId == len(f.Fonts)-1 {
+    fontId = 0
+  } else {
+    fontId++
+  }
+  font := f.Fonts[fontId]
+  prog := font.Banks[0][0]
+  log.Printf("Choosing first instrument prog of next font: %s, prog %s for channel %d\n", font.Name, prog.Name, chanId)
+  msg := fmt.Sprintf("select %d %d 0 %d", chanId, font.Id, prog.Id)
+  f.Send(msg)
+  return fontId, 0 // reset prog Id
+}
+
+/* increase prog number, or restart with first */
+func (f *FluidSynth) NextInstrumentProg(m *Menu) int {
+  chanId := m.currentPosition[1]
+  fontId := m.currentPosition[2]
+  progId := m.currentPosition[3]
+  font := f.Fonts[fontId]
+  // ignore banks for now, just take first and increase prog
+  if progId == len(font.Banks[0])-1 {
+    progId = 0
+  } else {
+    progId++
+  }
+  prog := font.Banks[0][progId]
+  log.Printf("Choosing next instrument prog: %s of font: %s for channel: %d\n", font.Name, prog.Name, chanId)
+  msg := fmt.Sprintf("select %d %d 0 %d", chanId, font.Id, prog.Id)
+  f.Send(msg)
+  return progId
 }

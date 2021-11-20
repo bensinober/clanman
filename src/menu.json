@@ -1,70 +1,56 @@
 {
-  "soundfonts": [
-    "ambient_organ.sf2",
-    "Barharp.sf2",
-    "Dance_Organs.sf2",
-    "FluidR3_GM.sf2",
-    "FluidR3_GS.sf2",
-    "Gothorgn.sf2",
-    "Hammond_B3_organ_Fast_Leslie.sf2",
-    "jRhodes3a-looped.sf2",
-    "M3R_Organs.sf2",
-    "Moog1.sf2",
-    "TimGM6mb.sf2",
-    "vintagekeys.sf2",
-    "warm_pad.sf2"
-  ],
   "functions": [
     {
-      "id": "banks",
+      "id": "instr",
+      "type": "instrumentSelector",
       "selects": [
         {
-          "id": "bankA",
-          "actions": [
-            {"id":"hammond","type":"instrument","action":"Hammond_B3_organ_Fast_Leslie:events-in"},
-            {"id":"m3_organ","type":"instrument","action":"M3R_Organs:events-in"},
-            {"id":"wurly","type":"instrument","action":"wurly:events-in"},
-            {"id":"jrhodes","type":"instrument","action":"jRhodes3a-looped"},
-            {"id":"rhodes","type":"instrument","action":"rhodes:events-in"},
-            {"id":"vintagekeys","type":"instrument","action":"vintagekeys:events-in"},
-            {"id":"ambient_organ","type":"instrument","action":"ambient_organ:events-in"},
-            {"id":"Dance_Organs","type":"instrument","action":"Dance_Organs:events-in"},
-            {"id":"60s_organ","type":"instrument","action":"60s_organ:events-in"},
-            {"id":"TimGM6mb","type":"instrument","action":"TimGM6mb:events-in"},
-            {"id":"Gothorgn","type":"instrument","action":"Gothorgn:events-in"},
-            {"id":"Moog1","type":"instrument","action":"Moog1:events-in"},
-            {"id":"warm_pad","type":"instrument","action":"warm_pad:events-in"},
-            {"id":"piano88","type":"instrument","action":"piano88:events-in"}
-          ],
-          "toggleD": [],
-          "rot": {}
+          "id": "chan_0",
+          "actions": [],
+          "toggles": [],
+          "rotLeft": "",
+          "rotRight": ""
         },
         {
-          "id": "bankB",
-          "actions": [
-            {"id":"none","type":"instrument","action":""},
-            {"id":"hammond","type":"instrument","action":"Hammond_B3_organ_Fast_Leslie:events-in"},
-            {"id":"m3_organ","type":"instrument","action":"M3R_Organs:events-in"},
-            {"id":"wurly","type":"instrument","action":"wurly:events-in"},
-            {"id":"jrhodes","type":"instrument","action":"jRhodes3a-looped"},
-            {"id":"rhodes","type":"instrument","action":"rhodes:events-in"},
-            {"id":"vintagekeys","type":"instrument","action":"vintagekeys:events-in"},
-            {"id":"ambient_organ","type":"instrument","action":"ambient_organ:events-in"},
-            {"id":"Dance_Organs","type":"instrument","action":"Dance_Organs:events-in"},
-            {"id":"60s_organ","type":"instrument","action":"60s_organ:events-in"},
-            {"id":"TimGM6mb","type":"instrument","action":"TimGM6mb:events-in"},
-            {"id":"Gothorgn","type":"instrument","action":"Gothorgn:events-in"},
-            {"id":"Moog1","type":"instrument","action":"Moog1:events-in"},
-            {"id":"warm_pad","type":"instrument","action":"warm_pad:events-in"},
-            {"id":"piano88","type":"instrument","action":"piano88:events-in"}
-          ],
-          "toggleD": [],
-          "rot": {}
+          "id": "chan_1",
+          "actions": [],
+          "toggles": [],
+          "rotLeft": "",
+          "rotRight": ""
+        },
+        {
+          "id": "chan_2",
+          "actions": [],
+          "toggles": [],
+          "rotLeft": "",
+          "rotRight": ""
+        },
+        {
+          "id": "chan_3",
+          "actions": [],
+          "toggles": [],
+          "rotLeft": "",
+          "rotRight": ""
+        },
+        {
+          "id": "chan_4",
+          "actions": [],
+          "toggles": [],
+          "rotLeft": "",
+          "rotRight": ""
+        },
+        {
+          "id": "chan_5",
+          "actions": [],
+          "toggles": [],
+          "rotLeft": "",
+          "rotRight": ""
         }
       ]
     },
     {
       "id": "mixer",
+      "type": "mixer",
       "selects": [
         {
           "id": "volume",
@@ -72,8 +58,9 @@
             {"id":"mute","type":"mixer"},
             {"id":"unmute","type":"mixer"}
           ],
-          "toggleD": [],
-          "rot": []
+          "toggles": [],
+          "rotLeft": "volDown",
+          "rotRight": "volUp"
         },
         {
           "id": "balance",
@@ -81,14 +68,15 @@
             {"id":"panleft","type":"mixer"},
             {"id":"panright","type":"mixer"}
           ],
-          "toggleD": [],
-          "rotLeft": "panleft",
-          "rotRight": "panright"
+          "toggles": [],
+          "rotLeft": "panLeft",
+          "rotRight": "panRight"
         }
       ]
     },
     {
       "id": "effects",
+      "type": "effects",
       "selects": [
         {
           "id": "Effect A",
@@ -100,7 +88,7 @@
             {"id":"Calf Rotary Speaker","type":"effect","action":"Calf Rotary Speaker:events-in"},
             {"id":"SI-D2","type":"effect","action":"SI-D2:events-in"}
           ],
-          "toggleD": [],
+          "toggles": [],
           "rot": []
         },
         {
@@ -113,7 +101,7 @@
             {"id":"Calf Rotary Speaker","type":"effect","action":"Calf Rotary Speaker:events-in"},
             {"id":"SI-D2","type":"effect","action":"SI-D2:events-in"}
           ],
-          "toggleD": [],
+          "toggles": [],
           "rot": []
         }
       ]
