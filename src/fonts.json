@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Hammond B3",
+    "file": "Hammond_B3_organ_Fast_Leslie.sf2"
+  },
+  {
+    "name": "B3 slow",
+    "file": "B3_slow.sf2"
+  },
+  {
+    "name": "Hammond dist",
+    "file": "1115_ROCK_Hammond_Distorted.sf2"
+  },
+  {
+    "name": "B3 leslie",
+    "file": "1_Tr_B3.sf2"
+  },
+  {
+    "name": "El piano",
+    "file": "classic_ep_pgm04.sf2"
+  },
+  {
+    "name": "Double bass",
+    "file": "double_bass_pgm32.sf2"
+  },
+  {
+    "name": "Flute 2",
+    "file": "Flute2.sf2"
+  },
+  {
+    "name": "Mellotron",
+    "file": "Mellotron.sf2"
+  },
+  {
+    "name": "Mem moog bass",
+    "file": "Mem_moog_bass.sf2"
+  },
+  {
+    "name": "Moog 55",
+    "file": "Moog_55.sf2"
+  },
+  {
+    "name": "Tron Strings",
+    "file": "Tron_Strings.sf2"
+  },
+  {
+    "name": "M3R Organs",
+    "file": "M3R_Organs.sf2"
+  },
+  {
+    "name": "j3r rhodes",
+    "file": "jRhodes3a-looped.sf2"
+  },
+  {
+    "name": "Dance Organs",
+    "file": "Dance_Organs.sf2"
+  },
+  {
+    "name": "Goth organs",
+    "file": "Gothorgn.sf2"
+  },
+  {
+    "name": "Wurlitzer",
+    "file": "Wurlitzer.sf2"
+  },
+  {
+    "name": "Tim General fonts",
+    "file": "TimGM6mb.sf2"
+  }
+]
