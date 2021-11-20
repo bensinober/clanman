@@ -13,12 +13,15 @@ run: ## Run amd64 version
 	go run src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go
 
 test: ## Run amd64 test
-	go run src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go --test
+	cd src && go run clanman.go server.go controls.go menu.go display.go fluid.go --test
 
 build: ## Build for linux amd64
 	go build -o ./dist/clanman src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go
-	cp src/menu.json dist/
+	cp src/*.json dist/
 
 build-pi:  ## build for RaspberryPi
 	GOOS=linux GOARCH=arm GOARM=6 go build -o ./dist/clanman src/*.go
-	cp src/menu.json dist/
+	cp src/*.json dist/
+
+push:	## push dist to patchbox
+	rsync -avz dist/* patch@patchbox:./clanman/
