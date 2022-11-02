@@ -1,0 +1,14 @@
+[Unit]
+Description=Start linuxsampler server
+
+[Service]
+LimitRTPRIO=infinity
+LimitMEMLOCK=infinity
+WorkingDirectory=/home/pi/
+User=root
+Group=root
+Restart=always
+ExecStart=/usr/local/bin/linuxsampler
+
+[Install]
+WantedBy=multi-user.target

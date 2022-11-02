@@ -117,13 +117,13 @@ func (m *Menu) NextToggle() {
    btnD toggles patch
 */
 
-func (m *Menu) SelectFontId(id int) {
+func (m *Menu) SelectGroupId(id int) {
   m.mu.Lock()
   m.currentPosition[2] = id
   m.mu.Unlock()
 }
 
-func (m *Menu) SelectProgId(id int) {
+func (m *Menu) SelectInstrumentId(id int) {
   m.mu.Lock()
   m.currentPosition[3] = id
   m.mu.Unlock()

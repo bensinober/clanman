@@ -12,8 +12,8 @@ type Server struct {
 }
 
 type ServerStatus struct {
-  Fonts []Font
-  Menu  *Menu
+  Groups []Group
+  Menu   *Menu
 }
 
 func NewServer(a string, c *ClanMan) *Server {
@@ -27,8 +27,8 @@ func (s *Server) ServerStatus() *ServerStatus {
   //now := time.Now()
   //uptime := now.Sub(s.startTime)
   return &ServerStatus{
-    Fonts: s.clan.Fluid.Fonts,
-    Menu:  s.clan.Menu,
+    Groups: s.clan.Sampler.Groups,
+    Menu:   s.clan.Menu,
   }
 }
 

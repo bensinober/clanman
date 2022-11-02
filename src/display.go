@@ -8,10 +8,10 @@ import (
   "golang.org/x/image/font"
   "golang.org/x/image/font/basicfont"
   "golang.org/x/image/math/fixed"
-  "periph.io/x/conn/gpio"
-  "periph.io/x/conn/spi"
-  "periph.io/x/devices/ssd1306"
-  "periph.io/x/devices/ssd1306/image1bit"
+  "periph.io/x/conn/v3/gpio"
+  "periph.io/x/conn/v3/spi"
+  "periph.io/x/devices/v3/ssd1306"
+  "periph.io/x/devices/v3/ssd1306/image1bit"
 )
 
 // Created using dot2pic.com

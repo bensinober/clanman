@@ -9,11 +9,11 @@ import (
 	"log"
 	"time"
 
-	"periph.io/x/conn/gpio"
-	"periph.io/x/conn/gpio/gpioreg"
-	"periph.io/x/conn/gpio/gpiotest"
-	"periph.io/x/conn/spi/spireg"
-	"periph.io/x/host"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/gpio/gpioreg"
+	"periph.io/x/conn/v3/gpio/gpiotest"
+	"periph.io/x/conn/v3/spi/spireg"
+	"periph.io/x/host/v3"
 )
 
 type ClanMan struct {
@@ -26,7 +26,7 @@ type ClanMan struct {
 	Display     *Display
 	Menu        *Menu
 	InputEvents chan InputEvent
-	Fluid       *FluidSynth
+	Sampler     *Sampler
 }
 
 type InputEvent struct {
@@ -38,7 +38,7 @@ type Led struct {
 	Pin gpio.PinIO
 }
 
-func NewClanMan(ba, bb, bc, bd *PushButton, led *Led, disp *Display, re *RotaryEncoder, m *Menu, ev chan InputEvent, f *FluidSynth) *ClanMan {
+func NewClanMan(ba, bb, bc, bd *PushButton, led *Led, disp *Display, re *RotaryEncoder, m *Menu, ev chan InputEvent, s *Sampler) *ClanMan {
 	return &ClanMan{
 		BtnA:        ba,
 		BtnB:        bb,
@@ -48,7 +48,7 @@ func NewClanMan(ba, bb, bc, bd *PushButton, led *Led, disp *Display, re *RotaryE
 		Display:     disp,
 		Menu:        m,
 		InputEvents: ev,
-		Fluid:       f,
+		Sampler:     s,
 	}
 }
 
@@ -63,12 +63,12 @@ func (c *ClanMan) UpdateMenu(test bool) {
 	var funct, act, tog string
 	switch fun.Type {
 	case "instrumentSelector":
-		if len(c.Fluid.Fonts) > 0 {
-			fnt := c.Fluid.Fonts[p[2]] // menu pos 2 = font
-			prg := fnt.Banks[0][p[3]]  // menu pos 3 = prg
+		if len(c.Sampler.Groups) > 0 {
+			group := c.Sampler.Groups[p[2]] // menu pos 2 = group
+			inst := group.Instruments[p[3]] // menu pos 3 = instrument
 			funct = fmt.Sprintf("%s %s", fun.Id, sel.Id)
-			act = fmt.Sprintf("%d %s", p[2], fnt.Name)
-			tog = fmt.Sprintf("%d %s", p[3], prg.Name)
+			act = fmt.Sprintf("%d %s", p[2], group.Name)
+			tog = fmt.Sprintf("%d %s", p[3], inst.Name)
 		}
 	default:
 		if len(sel.Actions) > p[2] {
@@ -99,18 +99,18 @@ func (c *ClanMan) InputHandler(test bool) {
 			c.Menu.NextSelect()
 		case "BtnC":
 			if fun.Type == "instrumentSelector" {
-				log.Println("Button C fontSelector")
-				fontId, progId := c.Fluid.NextFont(c.Menu) // change chan 0 to new font
-				c.Menu.SelectFontId(fontId)
-				c.Menu.SelectProgId(progId)
+				log.Println("Button C groupSelector")
+				groupId, instId := c.Sampler.NextGroup(c.Menu) // change chan 0 to new group
+				c.Menu.SelectGroupId(groupId)
+				c.Menu.SelectInstrumentId(instId)
 			} else {
 				c.Menu.NextAction()
 			}
 		case "BtnD":
 			if fun.Type == "instrumentSelector" {
-				log.Println("Button D progSelector")
-				fontId := c.Fluid.NextInstrumentProg(c.Menu) // change chan 0 to new prog
-				c.Menu.SelectProgId(fontId)
+				log.Println("Button D instrumentSelector")
+				instId := c.Sampler.NextInstrument(c.Menu) // change chan 0 to new instrument
+				c.Menu.SelectInstrumentId(instId)
 			} else {
 				c.Menu.NextToggle()
 			}
@@ -128,7 +128,7 @@ func main() {
 	var clan *ClanMan
 	m := NewMenu()
 	ev := make(chan InputEvent)
-	fmt.Printf("#%v", m)
+	fmt.Printf("#%v\n\n", m)
 	//var spiPort spi.PortCloser
 	//cc := gpiod.Chips() // to debug GPIO chip
 	/* INITIALIZE SPI HOST */
@@ -170,8 +170,10 @@ func main() {
 		/* initialize */
 		disp := NewDisplay(128, 32, spiPort, dc, rst)
 		re := NewRotaryEncoder(apin, bpin)
-		f := NewFluidSynth("patchbox:9800")
-		clan = NewClanMan(ba, bb, bc, bd, led, disp, re, m, ev, f)
+		//f := NewFluidSynth("clanbox:9800")
+		sp := NewSampler("clanbox:8888")
+
+		clan = NewClanMan(ba, bb, bc, bd, led, disp, re, m, ev, sp)
 		time.Sleep(time.Second * 3)
 		clan.Display.Clear()
 		time.Sleep(time.Second * 3)
@@ -199,8 +201,9 @@ func main() {
 	s := NewServer(*port, clan)
 	if !*test {
 		/* Load soundfonts from file and update menu */
-		clan.Fluid.LoadFonts(clan.Display)
-		clan.Fluid.ResetToInitialFont()
+		clan.Sampler.Init(clan.Display)
+		clan.Sampler.LoadFonts(clan.Display)
+		clan.Sampler.ResetToInitialFont()
 		clan.UpdateMenu(*test)
 	}
 	s.Run()

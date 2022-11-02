@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"periph.io/x/conn/gpio"
-	"periph.io/x/conn/gpio/gpioutil"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/gpio/gpioutil"
 )
 
 type PushButton struct {
