@@ -1,70 +1,190 @@
 [
-  {
-    "name": "Hammond B3",
-    "file": "Hammond_B3_organ_Fast_Leslie.sf2"
-  },
-  {
-    "name": "B3 slow",
-    "file": "B3_slow.sf2"
-  },
-  {
-    "name": "Hammond dist",
-    "file": "1115_ROCK_Hammond_Distorted.sf2"
-  },
-  {
-    "name": "B3 leslie",
-    "file": "1_Tr_B3.sf2"
-  },
-  {
-    "name": "El piano",
-    "file": "classic_ep_pgm04.sf2"
-  },
-  {
-    "name": "Double bass",
-    "file": "double_bass_pgm32.sf2"
-  },
-  {
-    "name": "Flute 2",
-    "file": "Flute2.sf2"
-  },
-  {
-    "name": "Mellotron",
-    "file": "Mellotron.sf2"
-  },
-  {
-    "name": "Mem moog bass",
-    "file": "Mem_moog_bass.sf2"
-  },
-  {
-    "name": "Moog 55",
-    "file": "Moog_55.sf2"
-  },
-  {
-    "name": "Tron Strings",
-    "file": "Tron_Strings.sf2"
-  },
-  {
-    "name": "M3R Organs",
-    "file": "M3R_Organs.sf2"
-  },
-  {
-    "name": "j3r rhodes",
-    "file": "jRhodes3a-looped.sf2"
-  },
-  {
-    "name": "Dance Organs",
-    "file": "Dance_Organs.sf2"
-  },
-  {
-    "name": "Goth organs",
-    "file": "Gothorgn.sf2"
-  },
-  {
-    "name": "Wurlitzer",
-    "file": "Wurlitzer.sf2"
-  },
-  {
-    "name": "Tim General fonts",
-    "file": "TimGM6mb.sf2"
-  }
+    {
+        "id": 0,
+        "instruments": [
+            {
+                "engine": "gig",
+                "file": "/home/pi/GIG/clangig.gig",
+                "name": "Clanstomp 1",
+                "preset": 0,
+                "volume": 3
+            }
+        ],
+        "name": "Clanstomp 1"
+    },
+    {
+        "id": 1,
+        "instruments": [
+            {
+                "engine": "gig",
+                "file": "/home/pi/GIG/clanstomp2.gig",
+                "name": "Clanstomp 2",
+                "preset": 0,
+                "volume": 3
+            }
+        ],
+        "name": "Clanstomp 2"
+    },
+    {
+        "id": 2,
+        "instruments": [
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Hammond_B3_organ_Fast_Leslie.sf2",
+                "name": "Hammond B3 Leslie",
+                "preset": 0,
+                "volume": 1
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/B3_slow.sf2",
+                "name": "B3 slow",
+                "preset": 0,
+                "volume": 1
+            }
+        ],
+        "name": "Hammond"
+    },
+    {
+        "id": 3,
+        "instruments": [
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Tron_Strings.sf2",
+                "name": "Tron Strings",
+                "preset": 0,
+                "volume": 1
+            }
+        ],
+        "name": "Mellotron"
+    },
+    {
+        "id": 4,
+        "instruments": [
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Dance_Organs.sf2",
+                "name": "Vox panther",
+                "preset": 3,
+                "volume": 1
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Dance_Organs.sf2",
+                "name": "Vox jaguar",
+                "preset": 23,
+                "volume": 1.5
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Wurlitzer.sf2",
+                "name": "Vox Humana",
+                "preset": 9,
+                "volume": 1.5
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Wurlitzer.sf2",
+                "name": "Vox Humana NT",
+                "preset": 8,
+                "volume": 1.5
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Dance_Organs.sf2",
+                "name": "Vox 1",
+                "preset": 33,
+                "volume": 1.5
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Dance_Organs.sf2",
+                "name": "Vox 2",
+                "preset": 34,
+                "volume": 1.5
+            }
+        ],
+        "name": "Vox"
+    },
+    {
+        "id": 5,
+        "instruments": [
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Dance_Organs.sf2",
+                "name": "Farfisa 1:Bar 8",
+                "preset": 24,
+                "volume": 1.5
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Dance_Organs.sf2",
+                "name": "Farfisa 1:8+4",
+                "preset": 26,
+                "volume": 1.5
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Dance_Organs.sf2",
+                "name": "Farfisa 2:Bar4",
+                "preset": 29,
+                "volume": 1.5
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Dance_Organs.sf2",
+                "name": "Farfisa 2:16+8",
+                "preset": 32,
+                "volume": 1.5
+            }
+        ],
+        "name": "Farfisa"
+    },
+    {
+        "id": 6,
+        "instruments": [
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Mellotron.sf2",
+                "name": "MKII Flute",
+                "preset": 10,
+                "volume": 2
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Mellotron.sf2",
+                "name": "M400 Woodwind2",
+                "preset": 7,
+                "volume": 2
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Flute.sf2",
+                "name": "Flute",
+                "preset": 0,
+                "volume": 2
+            }
+        ],
+        "name": "Flute"
+    },
+    {
+        "id": 7,
+        "instruments": [
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/Moog_55.sf2",
+                "name": "Moog",
+                "preset": 0,
+                "volume": 1
+            },
+            {
+                "engine": "sf2",
+                "file": "/home/pi/SF2/MiniMoog1.sf2",
+                "name": "MiniMoog",
+                "preset": 0,
+                "volume": 1
+            }
+        ],
+        "name": "Moog"
+    }
 ]
