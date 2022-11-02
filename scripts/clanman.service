@@ -1,13 +1,13 @@
 [Unit]
 Description=Clanman service
-After=fluidsynth.service
+After=linuxsampler.service
 
 [Service]
-User=patch
-Group=patch
+User=pi
+Group=pi
 Restart=always
-WorkingDirectory=/home/patch/clanman
-ExecStart=/home/patch/clanman/clanman
+WorkingDirectory=/home/pi/clanman
+ExecStart=/home/pi/clanman/clanman
 Type=simple
 
 [Install]

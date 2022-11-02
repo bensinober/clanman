@@ -47,22 +47,42 @@ ROTARY
 
 ## Install
 
-### Raspberry Pi 3+ or newer
+### Raspberry Pi 3+ or newer with Raspbian OS
 
-Install PatchboxOS on raspberry flash disk
+*linuxsampler*
+
+    linuxsampler is an API for alsa midi that supports sfz, gig and sf2 sound banks
+
+    sudo apt install libsndfile-dev libaudiofile-dev
+
+    wget https://download.linuxsampler.org/packages/libgig-4.3.0.tar.bz2
+    tar xvjf libgig-4.3.0.tar.bz2
+    cd libgig-4.3.0
+    ./configure
+    make
+    make install
+
+    wget https://download.linuxsampler.org/packages/linuxsampler-2.2.0.tar.bz2
+    tar xvjf linuxsampler-2.2.0.tar.bz2
+    cd linuxsampler-2.2.0
+    ./configure
+    make
+    make install
+
+
+    alternatives: install from deb packages: https://download.linuxsampler.org/packages/debian/
+
+*fluidsynth et al*
+
+    sudo apt install fluidsynth
 
 *mindless midi connection service*
 
-    sudo apt install g++ make libasound2-dev
+    sudo apt install git g++ make libasound2-dev
     git clone https://github.com/mzero/amidiminder.git
     cd amidiminder
     make
     sudo dpkg -i build/amidiminder.deb
-
-*disable vnc*
-
-    systemctl stop vncserver-x11-serviced.service
-    systemctl disable vncserver-x11-serviced.service
 
 *Enable SPI*
 
@@ -79,15 +99,16 @@ Install PatchboxOS on raspberry flash disk
 
 Copy all script files into ./clanman/scripts folder, and the clanman binary to ./clanman
 
-ln -s /home/patch/clanman/scripts/fluidsynth.service /etc/systemd/system/fluidsynth.service
-ln -s /home/patch/clanman/scripts/clanman.service /etc/systemd/system/clanman.service
+    ln -s /home/pi/clanman/scripts/fluidsynth.service /etc/systemd/system/fluidsynth.service
+    ln -s /home/pi/clanman/scripts/linuxsampler.service /etc/systemd/system/linuxsampler.service
+    ln -s /home/pi/clanman/scripts/clanman.service /etc/systemd/system/clanman.service
 
-systemctl disable pisound-ctl.service
-systemctl enable fluidsynth.service
-systemctl enable clanman.service
+    systemctl enable fluidsynth.service
+    systemctl enable linuxsampler.service
+    systemctl enable clanman.service
 
 
-### Cross-compile tools (HOST)
+### Cross-compile tools (on HOST)
 
     sudo apt-get install libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev build-essential bison flex libssl-dev bc
     sudo apt install gcc-arm-linux-gnueabihf

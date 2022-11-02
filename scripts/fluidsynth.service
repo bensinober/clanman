@@ -4,9 +4,9 @@ Description=Start fluidsynth server
 [Service]
 LimitRTPRIO=infinity
 LimitMEMLOCK=infinity
-WorkingDirectory=/home/patch/SF2
-User=patch
-Group=patch
+WorkingDirectory=/home/pi/SF2
+User=pi
+Group=pi
 Restart=always
 ExecStart=/usr/bin/fluidsynth --server --no-shell -a alsa -r 48000 -c 2 -z 64 -o audio.alsa.device=hw:0,0
 #ExecStart=/usr/bin/fluidsynth --server --no-shell --disable-lash --midi-driver alsa_seq --audio-driver alsa

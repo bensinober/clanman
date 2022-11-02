@@ -7,21 +7,21 @@ all: clean build-pi
 
 clean:
 	rm -rf ./dist/*
-	go vet src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go
+	cd src && go vet ./...
 
 run: ## Run amd64 version
-	go run src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go
+	cd src && go run clanman.go server.go controls.go menu.go display.go sampler.go
 
 test: ## Run amd64 test
-	cd src && go run clanman.go server.go controls.go menu.go display.go fluid.go --test
+	cd src && go run clanman.go server.go controls.go menu.go display.go sampler.go --test
 
 build: ## Build for linux amd64
-	go build -o ./dist/clanman src/clanman.go src/server.go src/controls.go src/menu.go src/display.go src/fluid.go
-	cp src/*.json dist/
+	cd src && go build -o ../dist/clanman clanman.go server.go controls.go menu.go display.go sampler.go
+	cp src/*.json ./dist/
 
 build-pi:  ## build for RaspberryPi
-	GOOS=linux GOARCH=arm GOARM=6 go build -o ./dist/clanman src/*.go
-	cp src/*.json dist/
+	cd src && GOOS=linux GOARCH=arm GOARM=6 go build -o ../dist/clanman
+	cp src/*.json ./dist/
 
 push:	## push dist to patchbox
-	rsync -avz dist/* patch@patchbox:./clanman/
+	rsync -avz dist/* pi@clanbox:./clanman/
